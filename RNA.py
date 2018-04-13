@@ -1,4 +1,4 @@
-import random
+from random import *
 
 __author__ = 'Patrick Amaral'
 
@@ -26,28 +26,41 @@ def criarMatriz(local):
     return matriz
 
 def uK(matriz):
-    wk1 = random.random()
-    wk2 = random.random()
+    wk1 = random()
+    wk2 = random()
 
-    print('WK1: {} WK2: {}'.format(wk1, wk2))
+    u = []
+    print('wK1: {} \nwK2: {} \n'.format(wk1, wk2))
     for j in range(len(matriz)):
         sigma = 0
-        u=[]
+
         for i in range(len(matriz[j])-1):
             if i == 0:
                 result = matriz[j][i]*wk1
-                print('X1: {}'.format(result))
+                print('x1: {}'.format(result))
             if i == 1:
                 result = matriz[j][i]*wk2
-                print('X2: {}'.format(result))
+                print('x2: {}'.format(result))
             sigma=sigma+result
         print('SIGMA: {}'.format(sigma))
         u.append(sigma)
     return u
 
+def vK(uK):
+    oK = random()
+
+    print('\noK: {}'.format(oK))
+    v = []
+    for u in uK:
+        result = u - oK
+        print('vK: {}'.format(result))
+    v.append(result)
+    return v
+
 if __name__ == '__main__':
 
     local = str(input('Digite local do arquivo: '))
 
-    print(criarMatriz(local))
-    uK(criarMatriz(local))
+    matriz=criarMatriz(local)
+    uk=uK(matriz)
+    vK(uk)
