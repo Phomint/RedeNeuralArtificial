@@ -46,17 +46,20 @@ def uK(matriz, w):
         u.append(sigma)
     return u
 
-def deltaGeneralizada(matriz, u):
+def deltaGeneralizada(matriz, u, w):
     n = 0.1
-    w = 0.0
+
 
     for j in range(len(matriz)):
+        delta = []
         e = matriz[j][3]-u[j]
-
-        for i in range(len(matriz[j])):
-            delta = e*n*matriz[j][i]
-
-        w = w + delta
+        print('Erro {}'.format(e))
+        for i in range(len(matriz[j])-1):
+            result = e*n*matriz[j][i]
+            delta.append(result)
+            print('Delta {}'.format(delta))
+            w.__setitem__(i, w[i]+delta[i])
+        print('\nNovo W {}'.format(w))
     return w
 
 if __name__ == '__main__':
@@ -66,4 +69,4 @@ if __name__ == '__main__':
     matriz=criarMatriz(local)
     print(matriz)
     uk=uK(matriz,[0.2,0.2,0.2])
-    deltaGeneralizada(matriz, uk)
+    deltaGeneralizada(matriz, uk, [0.2,0.2,0.2])
