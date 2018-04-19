@@ -1,5 +1,3 @@
-from random import *
-
 __author__ = 'Patrick Amaral'
 
 def criarMatriz(local):
@@ -13,10 +11,12 @@ def criarMatriz(local):
         posicao = texto.split()
         x1 = float(posicao[0])
         x2 = float(posicao[1])
-        y = float(posicao[2])
+        x3 = float(posicao[2])
+        y = float(posicao[3])
 
         linha.append(x1)
         linha.append(x2)
+        linha.append(x3)
         linha.append(y)
 
         matriz.append(linha)
@@ -25,42 +25,45 @@ def criarMatriz(local):
 
     return matriz
 
-def uK(matriz):
-    wk1 = random()
-    wk2 = random()
-
+def uK(matriz, w):
     u = []
-    print('wK1: {} \nwK2: {} \n'.format(wk1, wk2))
+
     for j in range(len(matriz)):
         sigma = 0
 
         for i in range(len(matriz[j])-1):
             if i == 0:
-                result = matriz[j][i]*wk1
+                result = matriz[j][i]*w[i]
                 print('x1: {}'.format(result))
             if i == 1:
-                result = matriz[j][i]*wk2
+                result = matriz[j][i]*w[i]
                 print('x2: {}'.format(result))
+            if i == 2:
+                result = matriz[j][i]*w[i]
+                print('x3: {}'.format(result))
             sigma=sigma+result
         print('SIGMA: {}'.format(sigma))
         u.append(sigma)
     return u
 
-def vK(uK):
-    oK = random()
+def deltaGeneralizada(matriz, u):
+    n = 0.1
+    w = 0.0
 
-    print('\noK: {}'.format(oK))
-    v = []
-    for u in uK:
-        result = u - oK
-        print('vK: {}'.format(result))
-    v.append(result)
-    return v
+    for j in range(len(matriz)):
+        e = matriz[j][3]-u[j]
+
+        for i in range(len(matriz[j])):
+            delta = e*n*matriz[j][i]
+
+        w = w + delta
+    return w
 
 if __name__ == '__main__':
 
     local = str(input('Digite local do arquivo: '))
 
     matriz=criarMatriz(local)
-    uk=uK(matriz)
-    vK(uk)
+    print(matriz)
+    uk=uK(matriz,[0.2,0.2,0.2])
+    deltaGeneralizada(matriz, uk)
