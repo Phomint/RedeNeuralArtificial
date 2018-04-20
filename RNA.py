@@ -47,6 +47,7 @@ def uK(matriz, w):
     return u
 
 def funcaoLimiar(u):
+
     for i in range(len(u)):
         if u[i] >= 0:
             u.__setitem__(i, 1)
@@ -76,12 +77,18 @@ def deltaGeneralizada(matriz, yl, w):
 if __name__ == '__main__':
 
     local = str(input('Digite local do arquivo: '))
+
     w = [0.2,0.2,0.2]
     matriz = criarMatriz(local)
-    print(matriz)
+    print('MATRIZ {}'.format(matriz))
+    yDesejado = []
+    for j in range(len(matriz)):
+        yDesejado.append(matriz[j][3])
 
-    for i in range(10):
+    for i in range(10000):
         print('\n########## ÉPOCA {} ##########'.format(i+1))
         uk = uK(matriz, w)
         yLinha = funcaoLimiar(uk)
         delta = deltaGeneralizada(matriz, yLinha, w)
+        if uk==yDesejado:
+            break
