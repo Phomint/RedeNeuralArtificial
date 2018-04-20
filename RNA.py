@@ -53,16 +53,16 @@ def funcaoLimiar(u):
         if u[i] < 0:
             u.__setitem__(i, 0)
     print('\nYl {}'.format(u))
+
     return u
 
 def deltaGeneralizada(matriz, yl, w):
     n = 0.1
-
-
+    print('W recebido {}'.format(w))
     for j in range(len(matriz)):
         delta = []
         e = matriz[j][3]-yl[j]
-        print('\nErro {}'.format(e))
+        print('Erro {}'.format(e))
 
         for i in range(len(matriz[j])-1):
             result = e*n*matriz[j][i]
@@ -70,15 +70,18 @@ def deltaGeneralizada(matriz, yl, w):
 
             w.__setitem__(i, w[i]+delta[i])
         print('Delta {}'.format(delta))
-        print('Novo W {}\n'.format(w))
+        print('Novo W {}'.format(w))
     return w
 
 if __name__ == '__main__':
 
     local = str(input('Digite local do arquivo: '))
-
+    w = [0.2,0.2,0.2]
     matriz = criarMatriz(local)
     print(matriz)
-    uk = uK(matriz,[0.2,0.2,0.2])
-    yLinha = funcaoLimiar(uk)
-    deltaGeneralizada(matriz, yLinha, [0.2,0.2,0.2])
+
+    for i in range(10):
+        print('\n########## ÉPOCA {} ##########'.format(i+1))
+        uk = uK(matriz, w)
+        yLinha = funcaoLimiar(uk)
+        delta = deltaGeneralizada(matriz, yLinha, w)
